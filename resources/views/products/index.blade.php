@@ -2,131 +2,504 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Money Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+          rel="stylesheet">
 
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 0;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 60px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        body{
+            background:#020617;
+            color:white;
+            font-family:Arial, Helvetica, sans-serif;
+            min-height:100vh;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+        .container-box{
+            padding:40px 0;
         }
 
-        h2 {
-            margin: 0;
-            color: #333;
+        /* Header */
+
+        .dashboard-title{
+            font-size:34px;
+            font-weight:700;
+            color:#ffffff;
         }
 
-        .add-btn {
-            text-decoration: none;
-            padding: 10px 16px;
-            background: #4f46e5;
-            color: #fff;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background 0.3s ease;
+        .dashboard-subtitle{
+            color:#94a3b8;
+            margin-top:5px;
         }
 
-        .add-btn:hover {
-            background: #4338ca;
+        .btn-add{
+            background:#2563eb;
+            color:white;
+            padding:12px 22px;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:600;
+            transition:0.3s;
         }
 
-        .success {
-            background: #ecfdf5;
-            color: #065f46;
-            padding: 10px 14px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 14px;
+        .btn-add:hover{
+            background:#1d4ed8;
+            color:white;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Cards */
+
+        .stats-card{
+            background:#0f172a;
+            border:1px solid #1e293b;
+            border-radius:18px;
+            padding:28px;
+            transition:0.3s;
         }
 
-        thead {
-            background: #f1f5f9;
+        .stats-card:hover{
+            transform:translateY(-4px);
+            border-color:#2563eb;
         }
 
-        th, td {
-            padding: 12px 14px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+        .stats-icon{
+            width:60px;
+            height:60px;
+            border-radius:14px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:24px;
+            margin-bottom:18px;
         }
 
-        th {
-            font-weight: 600;
-            color: #374151;
+        .bg-blue{
+            background:#2563eb;
         }
 
-        tr:hover td {
-            background: #f9fafb;
+        .bg-green{
+            background:#16a34a;
         }
 
-        .price {
-            font-weight: 600;
-            color: #111827;
+        .stats-title{
+            color:#94a3b8;
+            font-size:15px;
         }
 
-        .empty {
-            text-align: center;
-            color: #6b7280;
-            padding: 20px;
+        .stats-value{
+            font-size:32px;
+            font-weight:700;
+            margin-top:6px;
         }
+
+        /* Search */
+
+        .search-box{
+            background:#0f172a !important;
+            border:1px solid #1e293b !important;
+            color:white !important;
+            border-radius:14px;
+            padding:14px;
+        }
+
+        .search-box::placeholder{
+            color:#64748b;
+        }
+
+        .search-box:focus{
+            border-color:#2563eb !important;
+            box-shadow:none !important;
+        }
+
+        /* Table */
+
+        .table-card{
+            background:#0f172a;
+            border:1px solid #1e293b;
+            border-radius:18px;
+            overflow:hidden;
+        }
+
+        .table{
+            margin-bottom:0;
+            color:white !important;
+        }
+
+        .table thead{
+            background:#111827 !important;
+        }
+
+        .table thead th{
+            background:#111827 !important;
+            color:#cbd5e1 !important;
+            border:none !important;
+            padding:18px;
+            text-transform:uppercase;
+            font-size:14px;
+        }
+
+        .table tbody tr{
+            background:#0f172a !important;
+            transition:0.3s;
+        }
+
+        .table tbody tr:hover{
+            background:#111827 !important;
+        }
+
+        .table tbody td{
+            background:#0f172a !important;
+            color:white !important;
+            border-color:#1e293b !important;
+            padding:18px;
+            vertical-align:middle;
+        }
+
+        .product-name{
+            font-weight:600;
+        }
+
+        .price{
+            color:#38bdf8;
+            font-weight:700;
+        }
+
+        .currency-badge{
+            background:#1e293b;
+            color:#38bdf8;
+            padding:8px 14px;
+            border-radius:30px;
+            font-size:12px;
+            font-weight:600;
+        }
+
+        /* Buttons */
+
+        .btn-edit{
+            background:#f59e0b;
+            border:none;
+            color:white;
+            border-radius:10px;
+            padding:8px 12px;
+        }
+
+        .btn-delete{
+            background:#dc2626;
+            border:none;
+            color:white;
+            border-radius:10px;
+            padding:8px 12px;
+        }
+
+        .btn-edit:hover{
+            background:#d97706;
+            color:white;
+        }
+
+        .btn-delete:hover{
+            background:#b91c1c;
+            color:white;
+        }
+
+        /* Alert */
+
+        .alert-success{
+            background:#052e16;
+            border:none;
+            color:#bbf7d0;
+            border-radius:12px;
+        }
+
+        /* Empty */
+
+        .empty-state{
+            text-align:center;
+            padding:60px 20px;
+            color:#94a3b8;
+        }
+
+        .empty-state i{
+            font-size:70px;
+            margin-bottom:18px;
+        }
+
+        /* Custom Pagination */
+
+        .pagination-wrapper{
+            display:flex;
+            justify-content:center;
+            margin-top:35px;
+        }
+
+        .page-number{
+            width:45px;
+            height:45px;
+            background:#111827;
+            color:white;
+            border-radius:12px;
+            text-decoration:none;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:0 6px;
+            font-weight:600;
+            transition:0.3s;
+            border:1px solid #1e293b;
+        }
+
+        .page-number:hover{
+            background:#2563eb;
+            color:white;
+        }
+
+        .active-page{
+            background:#2563eb;
+            color:white;
+            border-color:#2563eb;
+        }
+
     </style>
+
 </head>
+
 <body>
 
-<div class="container">
+<div class="container container-box">
 
-    <div class="header">
-        <h2>Product List</h2>
-        <a href="{{ route('products.create') }}" class="add-btn">+ Add Product</a>
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+
+            <h1 class="dashboard-title">
+                <i class="bi bi-cash-stack"></i>
+                Money Dashboard
+            </h1>
+
+            <p class="dashboard-subtitle">
+                Manage products and money records
+            </p>
+
+        </div>
+
+        <a href="{{ route('products.create') }}"
+           class="btn-add">
+
+            <i class="bi bi-plus-circle"></i>
+            Add Product
+
+        </a>
+
     </div>
 
+    <!-- Success Message -->
+
     @if(session('success'))
-        <div class="success">
+
+        <div class="alert alert-success mb-4">
             {{ session('success') }}
         </div>
+
     @endif
 
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-        @forelse($products as $product)
-            <tr>
-                <td>{{ $product->name }}</td>
-                <td class="price">{{ $product->formatted_price }}</td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="2" class="empty">No products found</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    <!-- Stats -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6">
+
+            <div class="stats-card">
+
+                <div class="stats-icon bg-blue">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <div class="stats-title">
+                    Total Products
+                </div>
+
+                <div class="stats-value">
+                    {{ $totalProducts }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="stats-card">
+
+                <div class="stats-icon bg-green">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+
+                <div class="stats-title">
+                    Total Amount
+                </div>
+
+                <div class="stats-value">
+                    ₹ {{ number_format($totalAmount, 2) }}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Search -->
+
+    <form method="GET" class="mb-4">
+
+        <input type="text"
+               name="search"
+               class="form-control search-box"
+               placeholder="Search Product..."
+               value="{{ $search }}">
+
+    </form>
+
+    <!-- Table -->
+
+    <div class="table-card">
+
+        <div class="table-responsive">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Currency</th>
+                        <th width="180">Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                @forelse($products as $product)
+
+                    <tr>
+
+                        <td>#{{ $product->id }}</td>
+
+                        <td class="product-name">
+                            {{ $product->name }}
+                        </td>
+
+                        <td class="price">
+                            {{ $product->formatted_price }}
+                        </td>
+
+                        <td>
+
+                            <span class="currency-badge">
+                                {{ $product->currency }}
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a href="{{ route('products.edit', $product->id) }}"
+                               class="btn btn-edit btn-sm">
+
+                                <i class="bi bi-pencil-square"></i>
+
+                            </a>
+
+                            <form action="{{ route('products.destroy', $product->id) }}"
+                                  method="POST"
+                                  class="d-inline">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit"
+                                        class="btn btn-delete btn-sm"
+                                        onclick="return confirm('Delete Product?')">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="5">
+
+                            <div class="empty-state">
+
+                                <i class="bi bi-inbox"></i>
+
+                                <h4>No Products Found</h4>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Custom Number Pagination -->
+
+    @if ($products->lastPage() > 1)
+
+        <div class="pagination-wrapper">
+
+            @for ($i = 1; $i <= $products->lastPage(); $i++)
+
+                <a href="{{ $products->url($i) }}"
+                   class="page-number {{ $products->currentPage() == $i ? 'active-page' : '' }}">
+
+                    {{ $i }}
+
+                </a>
+
+            @endfor
+
+        </div>
+
+    @endif
 
 </div>
 

@@ -3,14 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Akaunting\Money\Money;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'price'];
+    protected $fillable = [
+        'name',
+        'price',
+        'currency'
+    ];
 
     public function getFormattedPriceAttribute()
     {
-        return Money::INR($this->price);
+        $symbols = [
+            'INR' => '₹',
+            'USD' => '$',
+            'EUR' => '€',
+        ];
+
+        $symbol = $symbols[$this->currency] ?? '';
+
+        return $symbol . number_format($this->price, 2);
     }
 }
