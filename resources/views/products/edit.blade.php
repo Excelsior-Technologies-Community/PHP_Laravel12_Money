@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Add Product</title>
+    <title>Edit Product</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -93,10 +93,6 @@
             color:white !important;
         }
 
-        .form-control::placeholder{
-            color:#64748b;
-        }
-
         .submit-btn{
             width:100%;
             border:none;
@@ -131,7 +127,7 @@
             width:70px;
             height:70px;
             border-radius:20px;
-            background:#2563eb;
+            background:#f59e0b;
             display:flex;
             justify-content:center;
             align-items:center;
@@ -159,21 +155,22 @@
         </a>
 
         <div class="icon-box">
-            <i class="bi bi-bag-plus"></i>
+            <i class="bi bi-pencil-square"></i>
         </div>
 
         <h2 class="form-title">
-            Add Product
+            Edit Product
         </h2>
 
         <p class="form-subtitle">
-            Create a new product with money details
+            Update your product details
         </p>
 
-        <form method="POST"
-              action="{{ route('products.store') }}">
+        <form action="{{ route('products.update', $product->id) }}"
+              method="POST">
 
             @csrf
+            @method('PUT')
 
             <div class="form-group">
 
@@ -184,7 +181,7 @@
                 <input type="text"
                        name="name"
                        class="form-control"
-                       placeholder="Enter product name"
+                       value="{{ $product->name }}"
                        required>
 
             </div>
@@ -198,7 +195,7 @@
                 <input type="number"
                        name="price"
                        class="form-control"
-                       placeholder="Enter product price"
+                       value="{{ $product->price / 100 }}"
                        required>
 
             </div>
@@ -213,15 +210,18 @@
                         class="form-select"
                         required>
 
-                    <option value="INR">
+                    <option value="INR"
+                        {{ $product->currency == 'INR' ? 'selected' : '' }}>
                         INR (₹)
                     </option>
 
-                    <option value="USD">
+                    <option value="USD"
+                        {{ $product->currency == 'USD' ? 'selected' : '' }}>
                         USD ($)
                     </option>
 
-                    <option value="EUR">
+                    <option value="EUR"
+                        {{ $product->currency == 'EUR' ? 'selected' : '' }}>
                         EUR (€)
                     </option>
 
@@ -233,7 +233,7 @@
                     class="submit-btn">
 
                 <i class="bi bi-check-circle"></i>
-                Save Product
+                Update Product
 
             </button>
 
