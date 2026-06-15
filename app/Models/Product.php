@@ -8,8 +8,10 @@ class Product extends Model
 {
     protected $fillable = [
         'name',
+        'category',
         'price',
-        'currency'
+        'currency',
+        'image'
     ];
 
     public function getFormattedPriceAttribute()

@@ -4,50 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-   
-public function index(Request $request)
-{
-    $search = $request->search;
+    public function index(Request $request)
+    {
+        $search = $request->search;
+        $category = $request->category;
+        $currency = $request->currency;
 
-    $products = Product::when($search, function ($query) use ($search) {
+        $products = Product::query();
 
-        $query->where(function ($q) use ($search) {
+        if ($search) {
+            $products->where(function ($q) use ($search) {
 
-            // Name Search
-            $q->where('name', 'like', "%{$search}%")
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('currency', 'like', "%{$search}%");
 
-              // Currency Search
-              ->orWhere('currency', 'like', "%{$search}%");
+                if (is_numeric($search)) {
+                    $q->orWhere('price', $search);
+                }
+            });
+        }
 
-            // Price Search
-            if (is_numeric(str_replace(',', '', $search))) {
+        if ($category) {
+            $products->where('category', $category);
+        }
 
-                $price = str_replace(',', '', $search);
+        if ($currency) {
+            $products->where('currency', $currency);
+        }
 
-                $q->orWhere('price', $price);
-            }
+        $products = $products
+            ->orderBy('id', 'asc')
+            ->paginate(5)
+            ->withQueryString();
 
-        });
+        $totalProducts = Product::count();
+        $totalAmount = Product::sum('price');
 
-    })
-    ->latest()
-    ->paginate(5);
-
-    $totalProducts = Product::count();
-
-    $totalAmount = Product::sum('price');
-
-    return view('products.index', compact(
-        'products',
-        'search',
-        'totalProducts',
-        'totalAmount'
-    ));
-}
-
+        return view('products.index', compact(
+            'products',
+            'search',
+            'category',
+            'currency',
+            'totalProducts',
+            'totalAmount'
+        ));
+    }
 
     public function create()
     {
@@ -58,14 +64,26 @@ public function index(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'category' => 'required',
             'price' => 'required|numeric|min:1',
-            'currency' => 'required'
+            'currency' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+
+            $imagePath = $request->file('image')
+                ->store('products', 'public');
+        }
 
         Product::create([
             'name' => $request->name,
+            'category' => $request->category,
             'price' => $request->price,
-            'currency' => $request->currency
+            'currency' => $request->currency,
+            'image' => $imagePath
         ]);
 
         return redirect()
@@ -82,14 +100,35 @@ public function index(Request $request)
     {
         $request->validate([
             'name' => 'required',
+            'category' => 'required',
             'price' => 'required|numeric|min:1',
-            'currency' => 'required'
+            'currency' => 'required',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
+
+        $imagePath = $product->image;
+
+        if ($request->hasFile('image')) {
+
+            if (
+                $product->image &&
+                Storage::disk('public')->exists($product->image)
+            ) {
+
+                Storage::disk('public')
+                    ->delete($product->image);
+            }
+
+            $imagePath = $request->file('image')
+                ->store('products', 'public');
+        }
 
         $product->update([
             'name' => $request->name,
-            'price' => $request->price * 100,
-            'currency' => $request->currency
+            'category' => $request->category,
+            'price' => $request->price,
+            'currency' => $request->currency,
+            'image' => $imagePath
         ]);
 
         return redirect()
@@ -99,6 +138,15 @@ public function index(Request $request)
 
     public function destroy(Product $product)
     {
+        if (
+            $product->image &&
+            Storage::disk('public')->exists($product->image)
+        ) {
+
+            Storage::disk('public')
+                ->delete($product->image);
+        }
+
         $product->delete();
 
         return redirect()
