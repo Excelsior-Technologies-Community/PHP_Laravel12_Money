@@ -55,6 +55,11 @@ class ProductController extends Controller
         ));
     }
 
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
+    }
+
     public function create()
     {
         return view('products.create');
@@ -65,8 +70,8 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'price' => 'required|numeric|min:1',
-            'currency' => 'required',
+            'price' => 'required|numeric|min:0',
+            'currency' => 'required|in:INR,USD,EUR,GBP,JPY,AUD,CAD,SGD,AED,CHF,CNY',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
@@ -101,8 +106,8 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'price' => 'required|numeric|min:1',
-            'currency' => 'required',
+            'price' => 'required|numeric|min:0',
+            'currency' => 'required|in:INR,USD,EUR,GBP,JPY,AUD,CAD,SGD,AED,CHF,CNY',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 

@@ -12,6 +12,9 @@ Route::get('/create', [ProductController::class, 'create'])
 Route::post('/store', [ProductController::class, 'store'])
     ->name('products.store');
 
+Route::get('/show/{product}', [ProductController::class, 'show'])
+    ->name('products.show');
+
 Route::get('/edit/{product}', [ProductController::class, 'edit'])
     ->name('products.edit');
 
